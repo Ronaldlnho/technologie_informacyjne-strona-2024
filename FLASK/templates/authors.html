@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O autorach</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>O autorach</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}" class ="button">Strona główna</a></li>
+                <li><a href="{{ url_for('about') }}"class ="button">O projekcie</a></li>
+                <li><a href="{{ url_for('demonstration') }}"class ="button">Demonstracja</a></li>
+                <li><a href="{{ url_for('authors') }}"class ="button">O autorach</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Zespół projektowy</h2>
+        <p>Strona została przygotowana przez zespół:</p>
+        <p>Dorota Bensari 275972</p>
+        <p>Dominika Lewandowska 277505</p>
+        <p>Weronika Bartoszewska 277492</p>
+        <p>Michał Hałas 277462</p>
+
+
+    </main>
+</body>
+</html>
