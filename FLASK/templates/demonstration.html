@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demonstracja</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsxgraph@1.2.3/distrib/jsxgraphcore.js"></script>
+    <style>
+        #jxgbox1, #jxgbox2 {
+            width: 500px;
+            height: 500px;
+            border: 1px solid black;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Demonstracja</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Strona główna</a></li>
+                <li><a href="{{ url_for('about') }}">O projekcie</a></li>
+                <li><a href="{{ url_for('demonstration') }}">Demonstracja</a></li>
+                <li><a href="{{ url_for('authors') }}">O autorach</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Analiza funkcji i jej pochodnej</h2>
+        <p>Wprowadź funkcję f(x), aby zobaczyć jej pochodną, ekstrema oraz wykresy.</p>
+        <form method="post">
+            <label for="function">Funkcja f(x):</label>
+            <input type="text" id="function" name="function" required value="{{ function_str }}">
+            <button type="submit">Przeanalizuj</button>
+        </form>
+        {% if error_message %}
+        <h3>Błąd:</h3>
+        <p>{{ error_message }}</p>
+        {% endif %}
+        {% if function_latex and derivative_latex %}
+        <h3>Podana funkcja i jej pochodna</h3>
+        <p>Podana funkcja \( f(x) = {{ function_latex|safe }} \)</p>#mathjax
+        <p>Pochodna funkcji\( f'(x) = {{ derivative_latex|safe }} \)</p> #mathjax
+        <h3>Wynikowy wykres:</h3>
+        <h4 class="plot-title">Wykres funkcji f(x)</h4>
+        <div id="jxgbox1"></div>
+        <h4 class="plot-title">Wykres pochodnej f'(x)</h4>
+        <div id="jxgbox2"></div>
+        <h3>Ekstrema:</h3>
+        <ul>
+            {% for x, y, ext_type in extrema_points %}
+            <li>Punkt ekstremalny ({{ ext_type }}): x = {{ x }}, f(x) = {{ y }}</li>
+            {% endfor %}
+        </ul>
+        <script>
+            const functionStr = "{{ function_str }}";
+            const derivativeStr = "{{ derivative_str }}";
+            const board1 = JXG.JSXGraph.initBoard('jxgbox1', {
+                boundingbox: [-10, 10, 10, -10],
+                axis: true
+            });
+            const graph1 = board1.create('functiongraph', [function(x) {
+                return eval(functionStr);
+            }]);
+            const board2 = JXG.JSXGraph.initBoard('jxgbox2', {
+                boundingbox: [-10, 10, 10, -10],
+                axis: true
+            });
+            const graph2 = board2.create('functiongraph', [function(x) {
+                return eval(derivativeStr);
+            }]);
+        </script>
+        {% endif %}
+    </main>
+</body>
+</html>

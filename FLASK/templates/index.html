@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona główna</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Matematyka - Ekstrema funkcji</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Strona główna</a></li>
+                <li><a href="{{ url_for('about') }}">O projekcie</a></li>
+                <li><a href="{{ url_for('demonstration') }}">Demonstracja</a></li>
+                <li><a href="{{ url_for('authors') }}">O autorach</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Witamy na naszej stronie!</h2>
+        <p>Strona jest poświęcona ekstremom funkcji. W zakładce "Demonstracja" będziesz mieć możliwość obliczenia pochodnej dowolnej funkcji, znalezienia jej ekstremów oraz wyświetlenia wykresu funkcji oraz jej pochodnej.</p>
+    </main>
+</body>
+</html>

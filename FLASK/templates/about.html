@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O projekcie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>O projekcie</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Strona główna</a></li>
+                <li><a href="{{ url_for('about') }}">O projekcie</a></li>
+                <li><a href="{{ url_for('demonstration') }}">Demonstracja</a></li>
+                <li><a href="{{ url_for('authors') }}">O autorach</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Cel projektu</h2>
+        <p>Celem tego projektu jest demonstracja algorytmu znajdywania ekstremów funkcji oraz zastosowanie pochodnych.</p>
+    </main>
+</body>
+</html>
