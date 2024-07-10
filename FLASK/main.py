@@ -15,6 +15,7 @@ def about():
 def demonstration():
     extrema_points = []
     error_message = None
+    accepted_chars = ['0','1','2','3','4','5','6','7','8','9','x','(',')','-','+','/',',','*','^']
     function_str = ""
     derivative_str = ""
     function_latex = ""
@@ -25,6 +26,17 @@ def demonstration():
             input_txt = request.form['function'].replace('^', '**')
             
             function_str = re.sub(r'(\d)([a-zA-Z])', r'\1*\2', input_txt)
+            
+            
+            for i in range(len(function_str)):
+                if function_str[i] not in accepted_chars:
+                    raise ValueError
+                try:
+                    if function_str[i] == '/' and function_str[i + 1] == '0' and function_str[i+2] != ',':
+                        raise ZeroDivisionError
+                except IndexError:
+                    if function_str[i] == '/' and function_str[i + 1] == '0':
+                        raise ZeroDivisionError
             # Definiowanie zmiennej i funkcji
             x = sp.symbols('x')
             function = sp.sympify(function_str)
@@ -34,23 +46,22 @@ def demonstration():
             derivative = sp.diff(function, x)
             derivative_str = str(derivative)
             derivative_latex = sp.latex(derivative)
-
+            if 'x' in function_str:
             # Wyznaczanie ekstremów
-            critical_points = sp.solveset(sp.Eq(derivative, 0), x)
-            second_derivative = sp.diff(derivative, x)
-            extrema_points = []
-            for point in critical_points:
-                point_val = point.evalf()
-                function_val = function.subs(x, point).evalf()
-                second_derivative_val = second_derivative.subs(x, point).evalf()
-                if second_derivative_val > 0:
-                    extrema_points.append((point_val, function_val, 'minimum'))
-                elif second_derivative_val < 0:
-                    extrema_points.append((point_val, function_val, 'maksimum'))
-                else:
-                    extrema_points.append((point_val, function_val, 'punkt siodłowy'))
-        except sp.SympifyError:
-            error_message = "Błąd: Nie można przetworzyć wprowadzonego wyrażenia. Upewnij się, że jest ono poprawne i używaj operatora '**' zamiast '^' do potęgowania."
+                critical_points = sp.solveset(sp.Eq(derivative, 0), x)
+                second_derivative = sp.diff(derivative, x)
+                extrema_points = []
+                for point in critical_points:
+                    point_val = point.evalf()
+                    function_val = function.subs(x, point).evalf()
+                    second_derivative_val = second_derivative.subs(x, point).evalf()
+                    if second_derivative_val > 0:
+                        extrema_points.append((point_val, function_val, 'minimum'))
+                    elif second_derivative_val < 0:
+                        extrema_points.append((point_val, function_val, 'maksimum'))
+                    else:
+                        extrema_points.append((point_val, function_val, 'punkt siodłowy'))
+
         except ValueError:
             error_message = "Błąd: Wprowadź poprawną wartość liczbową."
         except ZeroDivisionError:
